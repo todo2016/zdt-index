@@ -1,33 +1,27 @@
-# ZGT-PC 官网
+# 智店通 - 官方网站
 
-> ZGT-PC 智能商品管理桌面客户端官方网站
+> 智能商品管理 SaaS · 扫码采购 · 库存分析 · AI 智能经营
 
-**在线访问：** https://todo2016.github.io/zgt-pc-index/
+**在线访问：** https://todo2016.github.io/zdt-index/
 
-## 关于
+## 产品简介
 
-ZGT-PC 是一款功能强大的智能商品管理桌面客户端，支持扫码采购、库存管理、数据分析，适用于零售、批发、电商等多种场景。
+智店通是一款专为中小商家打造的智能商品管理 SaaS，支持扫码采购、库存分析、数据可视化看板，以及 AI 智能经营建议。
 
-## 下载
+## 定价方案
 
-| 平台 | 最新版本 | 下载 |
-|------|---------|------|
-| Windows | v1.0.0 | [下载 (.exe)](https://github.com/todo2016/zgt-pc-electron/releases) |
-| macOS | v1.0.0 | [下载 (.dmg)](https://github.com/todo2016/zgt-pc-electron/releases) |
-| Linux | v1.0.0 | [下载 (.AppImage)](https://github.com/todo2016/zgt-pc-electron/releases) |
+| 版本 | 价格 | 适用人群 |
+|------|------|---------|
+| 基础版 | 9.9 元/月 | 个人商家、小型店铺 |
+| AI 智能版 | 19.9 元/月 | 需要 AI 决策支持的商家 |
 
-## 技术栈
+## 平台支持
 
-- 官网：纯静态 HTML/CSS（托管于 GitHub Pages）
-- 客户端：[zgt-pc-electron](https://github.com/todo2016/zgt-pc-electron)（Electron + Vue3 + TypeScript）
-- 云端：[zgt-cloud](https://github.com/todo2016/zgt-cloud)（NestJS + PostgreSQL + Redis）
+- Windows 10+ (64-bit)
+- macOS 11+ (Apple Silicon / Intel)
+- Linux (Ubuntu 20.04+)
 
-## 部署说明
+## 联系我们
 
-网站自动通过 GitHub Pages 托管，每次推送到 `main` 分支后自动部署。
-
-## 相关链接
-
-- 🖥️ 客户端仓库：https://github.com/todo2016/zgt-pc-electron
-- ☁️ 云端服务：https://github.com/todo2016/zgt-cloud
-- 📊 运维手册：[飞书文档](https://feishu.cn/docx/KMsUdSG5Ro5zoJxDvJ3cvie6nMb)
+- 客服邮箱：contact@zhdtong.com
+- 官网：https://todo2016.github.io/zdt-index/
