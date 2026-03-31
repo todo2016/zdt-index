@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ZGT-PC - 智能商品管理桌面客户端</title>
+  <meta name="description" content="ZGT-PC 是一款功能强大的智能商品管理桌面客户端，支持扫码采购、库存管理、数据分析，适用于零售、批发、电商等多种场景。">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; color: #1a1a2e; background: #f8f9fc; line-height: 1.6; }
+    a { text-decoration: none; color: inherit; }
+    
+    /* Nav */
+    nav { background: #fff; padding: 16px 40px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 8px rgba(0,0,0,0.06); position: sticky; top: 0; z-index: 100; }
+    .logo { font-size: 20px; font-weight: 800; color: #4f46e5; }
+    .logo span { color: #10b981; }
+    .nav-links { display: flex; gap: 32px; }
+    .nav-links a { color: #64748b; font-size: 14px; font-weight: 500; transition: color 0.2s; }
+    .nav-links a:hover { color: #4f46e5; }
+
+    /* Hero */
+    .hero { background: linear-gradient(135deg, #1a1a2e 0%, #2d2b55 50%, #4f46e5 100%); color: #fff; padding: 100px 40px; text-align: center; position: relative; overflow: hidden; }
+    .hero::before { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(79,70,229,0.1) 0%, transparent 50%); }
+    .hero-badge { display: inline-block; background: rgba(79,70,229,0.3); border: 1px solid rgba(79,70,229,0.5); color: #a5b4fc; padding: 4px 16px; border-radius: 20px; font-size: 13px; margin-bottom: 24px; }
+    .hero h1 { font-size: 52px; font-weight: 800; margin-bottom: 16px; letter-spacing: -1px; position: relative; }
+    .hero h1 span { background: linear-gradient(90deg, #818cf8, #34d399); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .hero p { font-size: 18px; color: #c7d2fe; max-width: 600px; margin: 0 auto 40px; }
+    .hero-buttons { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; position: relative; }
+    .btn-primary { background: #4f46e5; color: #fff; padding: 14px 32px; border-radius: 10px; font-weight: 600; font-size: 15px; display: inline-flex; align-items: center; gap: 8px; transition: all 0.2s; }
+    .btn-primary:hover { background: #4338ca; transform: translateY(-1px); box-shadow: 0 8px 24px rgba(79,70,229,0.4); }
+    .btn-secondary { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: #fff; padding: 14px 32px; border-radius: 10px; font-weight: 600; font-size: 15px; transition: all 0.2s; }
+    .btn-secondary:hover { background: rgba(255,255,255,0.2); }
+    .hero-version { color: #94a3b8; font-size: 13px; margin-top: 20px; }
+
+    /* Stats */
+    .stats { background: #fff; padding: 40px; display: flex; justify-content: center; gap: 60px; box-shadow: 0 4px 16px rgba(0,0,0,0.05); }
+    .stat-item { text-align: center; }
+    .stat-number { font-size: 32px; font-weight: 800; color: #4f46e5; }
+    .stat-label { font-size: 13px; color: #94a3b8; margin-top: 4px; }
+
+    /* Features */
+    .section { padding: 80px 40px; max-width: 1100px; margin: 0 auto; }
+    .section-title { text-align: center; margin-bottom: 60px; }
+    .section-title h2 { font-size: 36px; font-weight: 800; margin-bottom: 12px; }
+    .section-title p { color: #64748b; font-size: 16px; }
+    .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; }
+    .feature-card { background: #fff; border-radius: 16px; padding: 32px; box-shadow: 0 2px 12px rgba(0,0,0,0.04); border: 1px solid #f1f5f9; transition: all 0.2s; }
+    .feature-card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(79,70,229,0.1); border-color: #e0e7ff; }
+    .feature-icon { width: 48px; height: 48px; background: #eef2ff; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; margin-bottom: 16px; }
+    .feature-card h3 { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
+    .feature-card p { color: #64748b; font-size: 14px; }
+
+    /* Downloads */
+    .downloads { background: #fff; }
+    .downloads .section-title h2 { color: #1a1a2e; }
+    .download-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; max-width: 1000px; margin: 0 auto; }
+    .download-card { border: 2px solid #f1f5f9; border-radius: 16px; padding: 32px; text-align: center; transition: all 0.2s; }
+    .download-card:hover { border-color: #4f46e5; box-shadow: 0 4px 20px rgba(79,70,229,0.1); }
+    .download-card.latest { border-color: #4f46e5; background: linear-gradient(135deg, #fefeff, #f5f7ff); }
+    .download-card.latest .dl-badge { background: #4f46e5; color: #fff; }
+    .dl-icon { font-size: 48px; margin-bottom: 16px; }
+    .dl-badge { display: inline-block; background: #f1f5f9; color: #64748b; font-size: 11px; padding: 3px 10px; border-radius: 10px; margin-bottom: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+    .dl-name { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
+    .dl-desc { color: #94a3b8; font-size: 13px; margin-bottom: 20px; }
+    .dl-version { color: #4f46e5; font-size: 13px; font-weight: 600; margin-bottom: 16px; }
+    .dl-btn { display: inline-block; background: #1a1a2e; color: #fff; padding: 10px 24px; border-radius: 8px; font-size: 14px; font-weight: 600; transition: background 0.2s; }
+    .dl-btn:hover { background: #4f46e5; }
+    .dl-btn.secondary { background: #f1f5f9; color: #1a1a2e; }
+    .dl-btn.secondary:hover { background: #e0e7ff; color: #4f46e5; }
+
+    /* Version History */
+    .versions { background: #f8f9fc; }
+    .version-table { max-width: 800px; margin: 0 auto; background: #fff; border-radius: 16px; overflow: hidden; box-shadow: 0 2px 12px rgba(0,0,0,0.04); }
+    .version-row { display: grid; grid-template-columns: 120px 1fr 200px 120px; padding: 16px 24px; align-items: center; border-bottom: 1px solid #f1f5f9; }
+    .version-row:last-child { border-bottom: none; }
+    .version-row.header { background: #f8f9fc; font-weight: 600; font-size: 13px; color: #64748b; }
+    .version-tag { font-weight: 700; color: #4f46e5; font-size: 14px; }
+    .version-date { color: #94a3b8; font-size: 13px; }
+    .version-note { color: #64748b; font-size: 13px; }
+
+    /* Footer */
+    footer { background: #1a1a2e; color: #94a3b8; padding: 60px 40px; text-align: center; }
+    footer .logo { justify-content: center; display: flex; gap: 8px; margin-bottom: 16px; }
+    footer .logo span { color: #34d399; }
+    footer p { font-size: 14px; margin-bottom: 24px; }
+    .footer-links { display: flex; gap: 32px; justify-content: center; flex-wrap: wrap; }
+    .footer-links a { color: #94a3b8; font-size: 14px; transition: color 0.2s; }
+    .footer-links a:hover { color: #fff; }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .hero h1 { font-size: 32px; }
+      .stats { flex-direction: column; gap: 24px; }
+      .nav-links { display: none; }
+      .version-row { grid-template-columns: 1fr; gap: 4px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Nav -->
+  <nav>
+    <div class="logo">ZGT<span>-PC</span></div>
+    <div class="nav-links">
+      <a href="#features">功能特点</a>
+      <a href="#downloads">下载中心</a>
+      <a href="#versions">版本历史</a>
+      <a href="https://github.com/todo2016/zgt-pc-electron" target="_blank">GitHub</a>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-badge">✨ 智能商品管理新时代</div>
+    <h1>ZGT-PC<br><span>智能商品管理客户端</span></h1>
+    <p>集扫码采购、库存管理、数据分析于一体的桌面应用，支持 Windows、macOS、Linux，数据安全本地存储，云端同步。</p>
+    <div class="hero-buttons">
+      <a href="#downloads" class="btn-primary">⬇️ 立即下载</a>
+      <a href="https://github.com/todo2016/zgt-pc-electron" target="_blank" class="btn-secondary">📂 查看源码</a>
+    </div>
+    <div class="hero-version">当前版本：v1.0.0</div>
+  </section>
+
+  <!-- Stats -->
+  <div class="stats">
+    <div class="stat-item"><div class="stat-number">Windows</div><div class="stat-label">Windows 10+</div></div>
+    <div class="stat-item"><div class="stat-number">macOS</div><div class="stat-label">macOS 11+</div></div>
+    <div class="stat-item"><div class="stat-number">Linux</div><div class="stat-label">Ubuntu 20.04+</div></div>
+    <div class="stat-item"><div class="stat-number">免费</div><div class="stat-label">开源 · 无广告</div></div>
+  </div>
+
+  <!-- Features -->
+  <section class="section" id="features">
+    <div class="section-title">
+      <h2>为什么选择 ZGT-PC？</h2>
+      <p>专为商品管理场景设计，功能强大且简单易用</p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">📦</div>
+        <h3>扫码采购</h3>
+        <p>支持条码扫描查询、扫码入库、批量采购，扫码即可完成商品录入，大幅提升工作效率。</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📊</div>
+        <h3>数据分析</h3>
+        <p>实时统计商品销量、库存周转、供应商分析，数据可视化看板一目了然。</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">☁️</div>
+        <h3>云端同步</h3>
+        <p>本地数据安全存储，支持云端同步，多设备无缝切换，数据永不丢失。</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🔒</div>
+        <h3>安全可靠</h3>
+        <p>本地 SQLite 数据库，所有数据掌握在自己手中，支持权限管理和数据加密。</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🔌</div>
+        <h3>开放接口</h3>
+        <p>提供标准 REST API，支持第三方系统对接，可扩展性强。</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">⚡</div>
+        <h3>轻量高效</h3>
+        <p>基于 Electron + Vue3 构建，安装包小巧，启动快速，运行流畅。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Downloads -->
+  <section class="section downloads" id="downloads">
+    <div class="section-title">
+      <h2>下载中心</h2>
+      <p>选择适合您的平台版本，开始使用</p>
+    </div>
+    <div class="download-grid">
+      <div class="download-card latest">
+        <div class="dl-badge">最新版本</div>
+        <div class="dl-icon">🪟</div>
+        <div class="dl-name">Windows</div>
+        <div class="dl-desc">Windows 10 / 11 (64-bit)</div>
+        <div class="dl-version">v1.0.0 · 2026-03</div>
+        <a href="https://github.com/todo2016/zgt-pc-electron/releases/latest/download/zgt-pc-setup.exe" class="dl-btn">⬇️ 下载 Windows 版</a>
+        <br><br>
+        <a href="https://github.com/todo2016/zgt-pc-electron/releases/latest" class="dl-btn secondary">📋 查看所有版本</a>
+      </div>
+      <div class="download-card">
+        <div class="dl-badge">macOS</div>
+        <div class="dl-icon">🍎</div>
+        <div class="dl-name">macOS</div>
+        <div class="dl-desc">macOS 11+ (Apple Silicon / Intel)</div>
+        <div class="dl-version">v1.0.0 · 2026-03</div>
+        <a href="https://github.com/todo2016/zgt-pc-electron/releases/latest/download/zgt-pc-setup.dmg" class="dl-btn">⬇️ 下载 macOS 版</a>
+        <br><br>
+        <a href="https://github.com/todo2016/zgt-pc-electron/releases" class="dl-btn secondary">📋 所有 macOS 版本</a>
+      </div>
+      <div class="download-card">
+        <div class="dl-badge">Linux</div>
+        <div class="dl-icon">🐧</div>
+        <div class="dl-name">Linux</div>
+        <div class="dl-desc">Ubuntu 20.04+ / Debian</div>
+        <div class="dl-version">v1.0.0 · 2026-03</div>
+        <a href="https://github.com/todo2016/zgt-pc-electron/releases/latest/download/zgt-pc-setup.AppImage" class="dl-btn">⬇️ 下载 Linux 版</a>
+        <br><br>
+        <a href="https://github.com/todo2016/zgt-pc-electron/releases" class="dl-btn secondary">📋 所有 Linux 版本</a>
+      </div>
+    </div>
+    <p style="text-align:center; margin-top: 32px; color: #94a3b8; font-size: 13px;">
+      💡 暂无您需要的平台版本？<a href="https://github.com/todo2016/zgt-pc-electron/issues" style="color: #4f46e5;">提交 Issue</a> 告诉我们，或等待后续版本更新。
+    </p>
+  </section>
+
+  <!-- Version History -->
+  <section class="section versions" id="versions">
+    <div class="section-title">
+      <h2>版本历史</h2>
+      <p>所有发布版本及更新说明</p>
+    </div>
+    <div class="version-table">
+      <div class="version-row header">
+        <div>版本</div>
+        <div>更新说明</div>
+        <div>发布日期</div>
+        <div>平台</div>
+      </div>
+      <div class="version-row">
+        <div class="version-tag">v1.0.0</div>
+        <div class="version-note">🎉 首个正式版本，商品管理核心功能上线</div>
+        <div class="version-date">2026-03</div>
+        <div><a href="https://github.com/todo2016/zgt-pc-electron/releases" class="dl-btn secondary" style="padding:6px 12px; font-size:12px;">下载</a></div>
+      </div>
+    </div>
+    <p style="text-align:center; margin-top: 24px;">
+      <a href="https://github.com/todo2016/zgt-pc-electron/releases" target="_blank" style="color: #4f46e5; font-size: 14px;">查看全部版本 →</a>
+    </p>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="logo">ZGT<span>-PC</span></div>
+    <p>智能商品管理，让生意更简单</p>
+    <div class="footer-links">
+      <a href="https://github.com/todo2016/zgt-pc-electron" target="_blank">源码</a>
+      <a href="https://github.com/todo2016/zgt-pc-electron/releases" target="_blank">发布页</a>
+      <a href="https://github.com/todo2016/zgt-pc-electron/issues" target="_blank">问题反馈</a>
+      <a href="https://github.com/todo2016/zgt-pc-index" target="_blank">关于本站</a>
+    </div>
+    <p style="margin-top: 32px; font-size: 12px; color: #475569;">
+      © 2026 ZGT-PC · 基于 Electron + Vue3 构建 · 开源免费
+    </p>
+  </footer>
+
+</body>
+</html>
