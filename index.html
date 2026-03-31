@@ -5,599 +5,209 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>智店通 - 智能商品管理 SaaS</title>
   <meta name="description" content="智店通是一款智能商品管理 SaaS，扫码采购、库存分析、AI 智能经营，让生意更简单。基础版 9.9元/月，AI 版 19.9元/月。">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
-    :root {
-      --bg: #09090b;
-      --surface: rgba(255,255,255,0.04);
-      --surface-hover: rgba(255,255,255,0.07);
-      --border: rgba(255,255,255,0.08);
-      --border-bright: rgba(255,255,255,0.15);
-      --text: #fafafa;
-      --text-muted: #71717a;
-      --text-subtle: #a1a1aa;
-      --accent: #f97316;
-      --accent-light: #fb923c;
-      --accent-glow: rgba(249,115,22,0.2);
-      --ai: #a78bfa;
-      --ai-glow: rgba(167,139,250,0.2);
-      --radius: 16px;
-      --radius-lg: 24px;
-    }
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body {
-      font-family: 'Geist', -apple-system, BlinkMacSystemFont, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.6;
-      overflow-x: hidden;
-    }
-    a { text-decoration: none; color: inherit; }
-    img { max-width: 100%; display: block; }
-
-    /* Layout */
-    .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
-
-    /* Nav */
-    nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-      padding: 0 24px;
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border-bottom: 1px solid var(--border);
-      background: rgba(9,9,11,0.8);
-    }
-    .nav-inner {
-      max-width: 1200px; margin: 0 auto;
-      height: 64px;
-      display: flex; align-items: center; justify-content: space-between;
-    }
-    .logo {
-      display: flex; align-items: center; gap: 10px;
-      font-size: 20px; font-weight: 800; letter-spacing: -0.5px;
-    }
-    .logo-icon { width: 32px; height: 32px; }
-    .logo-accent { color: var(--accent); }
-    .nav-links { display: flex; gap: 32px; align-items: center; }
-    .nav-links a { font-size: 14px; color: var(--text-muted); transition: color 0.2s; font-weight: 500; }
-    .nav-links a:hover { color: var(--text); }
-    .nav-cta {
-      background: var(--accent); color: #fff;
-      padding: 8px 20px; border-radius: 8px;
-      font-size: 14px; font-weight: 600;
-      transition: all 0.2s; cursor: pointer;
-    }
-    .nav-cta:hover { background: var(--accent-light); transform: translateY(-1px); }
-
-    /* Hero */
-    .hero {
-      min-height: 100dvh;
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-      text-align: center;
-      padding: 120px 24px 80px;
-      position: relative;
-    }
-    .hero::before {
-      content: '';
-      position: absolute; top: 0; left: 50%; transform: translateX(-50%);
-      width: 800px; height: 800px;
-      background: radial-gradient(circle, rgba(249,115,22,0.12) 0%, transparent 60%);
-      pointer-events: none;
-    }
-    .hero-badge {
-      display: inline-flex; align-items: center; gap: 8px;
-      background: var(--surface); border: 1px solid var(--border);
-      padding: 6px 16px; border-radius: 100px;
-      font-size: 13px; color: var(--text-subtle);
-      margin-bottom: 32px;
-      animation: fadeInUp 0.6s ease-out;
-    }
-    .badge-dot { width: 6px; height: 6px; background: var(--accent); border-radius: 50%; animation: pulse 2s infinite; }
-    .hero h1 {
-      font-size: clamp(40px, 7vw, 72px);
-      font-weight: 800; letter-spacing: -2px; line-height: 1.1;
-      margin-bottom: 20px;
-      animation: fadeInUp 0.6s ease-out 0.1s both;
-    }
-    .hero h1 .accent { color: var(--accent); }
-    .hero-sub {
-      font-size: clamp(16px, 2vw, 20px);
-      color: var(--text-muted); max-width: 540px;
-      margin: 0 auto 48px;
-      animation: fadeInUp 0.6s ease-out 0.2s both;
-    }
-    .hero-actions {
-      display: flex; gap: 16px; flex-wrap: wrap; justify-content: center;
-      animation: fadeInUp 0.6s ease-out 0.3s both;
-    }
-    .btn-primary {
-      display: inline-flex; align-items: center; gap: 8px;
-      background: var(--accent); color: #fff;
-      padding: 14px 32px; border-radius: 12px;
-      font-size: 16px; font-weight: 600;
-      transition: all 0.2s; cursor: pointer;
-      box-shadow: 0 0 40px var(--accent-glow);
-    }
-    .btn-primary:hover { background: var(--accent-light); transform: translateY(-2px); box-shadow: 0 8px 40px var(--accent-glow); }
-    .btn-ghost {
-      display: inline-flex; align-items: center; gap: 8px;
-      background: var(--surface); color: var(--text);
-      border: 1px solid var(--border);
-      padding: 14px 32px; border-radius: 12px;
-      font-size: 16px; font-weight: 600;
-      transition: all 0.2s;
-    }
-    .btn-ghost:hover { background: var(--surface-hover); border-color: var(--border-bright); }
-    .hero-note { color: var(--text-muted); font-size: 13px; margin-top: 16px; animation: fadeInUp 0.6s ease-out 0.4s both; }
-    .hero-note span { color: var(--accent); }
-
-    /* Bento Grid */
-    .bento { padding: 80px 0; }
-    .bento-header { text-align: center; margin-bottom: 60px; }
-    .bento-header h2 { font-size: 36px; font-weight: 800; letter-spacing: -1px; margin-bottom: 12px; }
-    .bento-header p { color: var(--text-muted); font-size: 16px; }
-    .bento-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      grid-template-rows: auto;
-      gap: 16px;
-    }
-    .bento-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      padding: 32px;
-      transition: all 0.3s;
-      position: relative; overflow: hidden;
-    }
-    .bento-card:hover { background: var(--surface-hover); border-color: var(--border-bright); transform: translateY(-2px); }
-    .bento-card.large { grid-column: span 2; }
-    .bento-card.tall { grid-row: span 2; }
-    .bento-icon { font-size: 32px; margin-bottom: 20px; }
-    .bento-card h3 { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
-    .bento-card p { color: var(--text-muted); font-size: 14px; line-height: 1.7; }
-    .bento-card .tag {
-      display: inline-block; margin-top: 16px;
-      background: var(--surface); border: 1px solid var(--border);
-      padding: 4px 12px; border-radius: 100px;
-      font-size: 12px; color: var(--text-subtle);
-    }
-
-    /* Stats bar */
-    .stats-bar {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      padding: 32px 48px;
-      display: flex; justify-content: space-around; align-items: center;
-      flex-wrap: wrap; gap: 24px;
-      margin: 0 0 80px;
-    }
-    .stat-item { text-align: center; }
-    .stat-number { font-size: 32px; font-weight: 800; color: var(--accent); }
-    .stat-label { font-size: 13px; color: var(--text-muted); margin-top: 4px; }
-
-    /* Product showcase */
-    .showcase { padding: 80px 0; }
-    .showcase h2 { font-size: 36px; font-weight: 800; text-align: center; letter-spacing: -1px; margin-bottom: 12px; }
-    .showcase-sub { text-align: center; color: var(--text-muted); margin-bottom: 60px; }
-    .showcase-frame {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      overflow: hidden;
-      aspect-ratio: 16/9;
-      display: flex; align-items: center; justify-content: center;
-      position: relative;
-    }
-    .showcase-placeholder {
-      display: flex; flex-direction: column; align-items: center; gap: 16px;
-      color: var(--text-muted);
-    }
-    .showcase-placeholder-icon { font-size: 64px; opacity: 0.5; }
-    .showcase-placeholder p { font-size: 14px; }
-    .showcase-mac { width: 100%; }
-
-    /* Pricing */
-    .pricing { padding: 80px 0 120px; }
-    .pricing-header { text-align: center; margin-bottom: 60px; }
-    .pricing-header h2 { font-size: 36px; font-weight: 800; letter-spacing: -1px; margin-bottom: 12px; }
-    .pricing-header p { color: var(--text-muted); }
-    .pricing-grid {
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px;
-      max-width: 800px; margin: 0 auto;
-    }
-    .pricing-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      padding: 40px 32px;
-      position: relative;
-      transition: all 0.3s;
-    }
-    .pricing-card:hover { border-color: var(--border-bright); transform: translateY(-4px); }
-    .pricing-card.popular {
-      border-color: var(--accent);
-      box-shadow: 0 0 60px var(--accent-glow);
-    }
-    .pricing-popular {
-      position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
-      background: var(--accent); color: #fff;
-      padding: 4px 20px; border-radius: 100px;
-      font-size: 12px; font-weight: 700;
-      white-space: nowrap;
-    }
-    .pricing-name { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
-    .pricing-desc { color: var(--text-muted); font-size: 14px; margin-bottom: 32px; }
-    .pricing-price { margin-bottom: 32px; }
-    .pricing-amount { font-size: 52px; font-weight: 800; letter-spacing: -2px; }
-    .pricing-amount .yuan { font-size: 20px; font-weight: 400; color: var(--text-muted); }
-    .pricing-period { color: var(--text-muted); font-size: 14px; }
-    .pricing-features { list-style: none; margin-bottom: 32px; }
-    .pricing-features li {
-      display: flex; align-items: flex-start; gap: 10px;
-      font-size: 14px; color: var(--text-subtle);
-      padding: 8px 0; border-bottom: 1px solid var(--border);
-    }
-    .pricing-features li:last-child { border-bottom: none; }
-    .check { color: var(--accent); font-weight: 700; flex-shrink: 0; }
-    .pricing-card.ai .check { color: var(--ai); }
-    .pricing-card.ai .pricing-amount { color: var(--ai); }
-    .pricing-card.ai.popular { border-color: var(--ai); box-shadow: 0 0 60px var(--ai-glow); }
-    .pricing-card.ai .pricing-popular { background: var(--ai); }
-    .pricing-btn {
-      width: 100%; text-align: center;
-      padding: 14px; border-radius: 12px;
-      font-size: 16px; font-weight: 600;
-      cursor: pointer; transition: all 0.2s;
-      border: none;
-    }
-    .pricing-btn.primary { background: var(--accent); color: #fff; }
-    .pricing-btn.primary:hover { background: var(--accent-light); }
-    .pricing-btn.ai-btn { background: var(--ai); color: #fff; }
-    .pricing-btn.ai-btn:hover { filter: brightness(1.1); }
-    .pricing-btn.ghost { background: transparent; border: 1px solid var(--border); color: var(--text); }
-    .pricing-btn.ghost:hover { background: var(--surface-hover); }
-
-    /* FAQ */
-    .faq { padding: 80px 0; }
-    .faq-header { text-align: center; margin-bottom: 48px; }
-    .faq-header h2 { font-size: 32px; font-weight: 800; letter-spacing: -1px; }
-    .faq-list { max-width: 680px; margin: 0 auto; }
-    .faq-item {
-      border-bottom: 1px solid var(--border);
-      padding: 24px 0;
-    }
-    .faq-q { font-size: 16px; font-weight: 600; margin-bottom: 12px; color: var(--text); }
-    .faq-a { color: var(--text-muted); font-size: 14px; line-height: 1.8; }
-
-    /* CTA */
-    .cta-section {
-      padding: 120px 24px;
-      text-align: center;
-      position: relative;
-    }
-    .cta-section::before {
-      content: '';
-      position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
-      width: 600px; height: 600px;
-      background: radial-gradient(circle, rgba(249,115,22,0.08) 0%, transparent 60%);
-      pointer-events: none;
-    }
-    .cta h2 { font-size: clamp(28px, 4vw, 48px); font-weight: 800; letter-spacing: -1px; margin-bottom: 16px; }
-    .cta p { color: var(--text-muted); font-size: 18px; margin-bottom: 40px; }
-    .cta-actions { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
-
-    /* Footer */
-    footer {
-      border-top: 1px solid var(--border);
-      padding: 48px 24px;
-      display: flex; justify-content: space-between; align-items: center;
-      flex-wrap: wrap; gap: 24px;
-    }
-    .footer-brand { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 16px; }
-    .footer-links { display: flex; gap: 32px; }
-    .footer-links a { color: var(--text-muted); font-size: 14px; transition: color 0.2s; }
-    .footer-links a:hover { color: var(--text); }
-    .footer-copy { color: var(--text-muted); font-size: 13px; }
-
-    /* Animations */
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.4; }
-    }
-    .reveal {
-      opacity: 0;
-      transform: translateY(30px);
-      transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    .reveal.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    /* Responsive */
-    @media (max-width: 900px) {
-      .bento-grid { grid-template-columns: 1fr; }
-      .bento-card.large, .bento-card.tall { grid-column: span 1; grid-row: span 1; }
-      .nav-links { display: none; }
-      .stats-bar { flex-direction: column; }
-    }
-    @media (max-width: 600px) {
-      .pricing-grid { grid-template-columns: 1fr; }
-    }
+    :root{--bg:#09090b;--surface:rgba(255,255,255,0.04);--surface-hover:rgba(255,255,255,0.07);--border:rgba(255,255,255,0.08);--border-bright:rgba(255,255,255,0.15);--text:#fafafa;--text-muted:#71717a;--text-subtle:#a1a1aa;--accent:#f97316;--accent-light:#fb923c;--accent-glow:rgba(249,115,22,0.2);--ai:#a78bfa;--ai-glow:rgba(167,139,250,0.2)}
+    *{margin:0;padding:0;box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{font-family:-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden}
+    a{text-decoration:none;color:inherit}
+    .container{max-width:1200px;margin:0 auto;padding:0 24px}
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;backdrop-filter:blur(20px);border-bottom:1px solid var(--border);background:rgba(9,9,11,0.8)}
+    .nav-inner{max-width:1200px;margin:0 auto;height:64px;display:flex;align-items:center;justify-content:space-between}
+    .logo{display:flex;align-items:center;gap:10px;font-size:20px;font-weight:800}
+    .logo-accent{color:var(--accent)}
+    .nav-links{display:flex;gap:32px}
+    .nav-links a{font-size:14px;color:var(--text-muted);transition:color 0.2s;font-weight:500}
+    .nav-links a:hover{color:var(--text)}
+    .nav-cta{background:var(--accent);color:#fff;padding:8px 20px;border-radius:8px;font-size:14px;font-weight:600;transition:all 0.2s}
+    .nav-cta:hover{background:var(--accent-light);transform:translateY(-1px)}
+    .hero{min-height:100dvh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:120px 24px 80px;position:relative}
+    .hero::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:800px;height:800px;background:radial-gradient(circle,rgba(249,115,22,0.12) 0%,transparent 60%);pointer-events:none}
+    .hero-badge{display:inline-flex;align-items:center;gap:8px;background:var(--surface);border:1px solid var(--border);padding:6px 16px;border-radius:100px;font-size:13px;color:var(--text-subtle);margin-bottom:32px;animation:fadeInUp 0.6s ease-out}
+    .badge-dot{width:6px;height:6px;background:var(--accent);border-radius:50%;animation:pulse 2s infinite}
+    .hero h1{font-size:clamp(40px,7vw,72px);font-weight:800;letter-spacing:-2px;line-height:1.1;margin-bottom:20px;animation:fadeInUp 0.6s ease-out 0.1s both}
+    .hero h1 .accent{color:var(--accent)}
+    .hero-sub{font-size:clamp(16px,2vw,20px);color:var(--text-muted);max-width:540px;margin:0 auto 48px;animation:fadeInUp 0.6s ease-out 0.2s both}
+    .hero-actions{display:flex;gap:16px;flex-wrap:wrap;justify-content:center;animation:fadeInUp 0.6s ease-out 0.3s both}
+    .btn-primary{display:inline-flex;align-items:center;gap:8px;background:var(--accent);color:#fff;padding:14px 32px;border-radius:12px;font-size:16px;font-weight:600;transition:all 0.2s;box-shadow:0 0 40px var(--accent-glow)}
+    .btn-primary:hover{background:var(--accent-light);transform:translateY(-2px);box-shadow:0 8px 40px var(--accent-glow)}
+    .btn-ghost{display:inline-flex;align-items:center;gap:8px;background:var(--surface);color:var(--text);border:1px solid var(--border);padding:14px 32px;border-radius:12px;font-size:16px;font-weight:600;transition:all 0.2s}
+    .btn-ghost:hover{background:var(--surface-hover);border-color:var(--border-bright)}
+    .hero-note{color:var(--text-muted);font-size:13px;margin-top:16px;animation:fadeInUp 0.6s ease-out 0.4s both}
+    .hero-note span{color:var(--accent)}
+    .stats-bar{background:var(--surface);border:1px solid var(--border);border-radius:24px;padding:32px 48px;display:flex;justify-content:space-around;align-items:center;flex-wrap:wrap;gap:24px;margin:0 0 80px}
+    .stat-item{text-align:center}
+    .stat-number{font-size:32px;font-weight:800;color:var(--accent)}
+    .stat-label{font-size:13px;color:var(--text-muted);margin-top:4px}
+    .bento{padding:80px 0}
+    .bento-header{text-align:center;margin-bottom:60px}
+    .bento-header h2{font-size:36px;font-weight:800;letter-spacing:-1px;margin-bottom:12px}
+    .bento-header p{color:var(--text-muted);font-size:16px}
+    .bento-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+    .bento-card{background:var(--surface);border:1px solid var(--border);border-radius:24px;padding:32px;transition:all 0.3s}
+    .bento-card:hover{background:var(--surface-hover);border-color:var(--border-bright);transform:translateY(-2px)}
+    .bento-card.large{grid-column:span 2}
+    .bento-icon{font-size:32px;margin-bottom:20px}
+    .bento-card h3{font-size:18px;font-weight:700;margin-bottom:8px}
+    .bento-card p{color:var(--text-muted);font-size:14px;line-height:1.7}
+    .bento-card .tag{display:inline-block;margin-top:16px;background:var(--surface);border:1px solid var(--border);padding:4px 12px;border-radius:100px;font-size:12px;color:var(--text-subtle)}
+    .pricing{padding:80px 0 120px}
+    .pricing-header{text-align:center;margin-bottom:60px}
+    .pricing-header h2{font-size:36px;font-weight:800;letter-spacing:-1px;margin-bottom:12px}
+    .pricing-header p{color:var(--text-muted)}
+    .pricing-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px;max-width:800px;margin:0 auto}
+    .pricing-card{background:var(--surface);border:1px solid var(--border);border-radius:24px;padding:40px 32px;position:relative;transition:all 0.3s}
+    .pricing-card:hover{border-color:var(--border-bright);transform:translateY(-4px)}
+    .pricing-card.popular{border-color:var(--accent);box-shadow:0 0 60px var(--accent-glow)}
+    .pricing-popular{position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--accent);color:#fff;padding:4px 20px;border-radius:100px;font-size:12px;font-weight:700}
+    .pricing-name{font-size:20px;font-weight:700;margin-bottom:8px}
+    .pricing-desc{color:var(--text-muted);font-size:14px;margin-bottom:32px}
+    .pricing-price{margin-bottom:32px}
+    .pricing-amount{font-size:52px;font-weight:800;letter-spacing:-2px}
+    .pricing-amount .yuan{font-size:20px;font-weight:400;color:var(--text-muted)}
+    .pricing-features{list-style:none;margin-bottom:32px}
+    .pricing-features li{display:flex;align-items:flex-start;gap:10px;font-size:14px;color:var(--text-subtle);padding:8px 0;border-bottom:1px solid var(--border)}
+    .pricing-features li:last-child{border-bottom:none}
+    .check{color:var(--accent);font-weight:700;flex-shrink:0}
+    .pricing-card.ai .check{color:var(--ai)}
+    .pricing-card.ai .pricing-amount{color:var(--ai)}
+    .pricing-card.ai.popular{border-color:var(--ai);box-shadow:0 0 60px var(--ai-glow)}
+    .pricing-card.ai .pricing-popular{background:var(--ai)}
+    .pricing-btn{width:100%;text-align:center;padding:14px;border-radius:12px;font-size:16px;font-weight:600;cursor:pointer;transition:all 0.2s;border:none}
+    .pricing-btn.primary{background:var(--accent);color:#fff}
+    .pricing-btn.primary:hover{background:var(--accent-light)}
+    .pricing-btn.ai-btn{background:var(--ai);color:#fff}
+    .pricing-btn.ai-btn:hover{filter:brightness(1.1)}
+    .pricing-btn.ghost{background:transparent;border:1px solid var(--border);color:var(--text)}
+    .pricing-btn.ghost:hover{background:var(--surface-hover)}
+    .download-section{padding:80px 0}
+    .download-header{text-align:center;margin-bottom:48px}
+    .download-header h2{font-size:32px;font-weight:800;letter-spacing:-1px}
+    .download-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;max-width:900px;margin:0 auto}
+    .dl-card{background:var(--surface);border:1px solid var(--border);border-radius:24px;padding:32px;text-align:center;transition:all 0.2s}
+    .dl-card:hover{border-color:var(--border-bright);transform:translateY(-2px)}
+    .dl-icon{font-size:40px;margin-bottom:16px}
+    .dl-name{font-size:18px;font-weight:700;margin-bottom:4px}
+    .dl-desc{color:var(--text-muted);font-size:13px;margin-bottom:16px}
+    .dl-version{color:var(--accent);font-size:13px;font-weight:600;margin-bottom:20px}
+    .dl-btn{display:inline-block;background:var(--accent);color:#fff;padding:10px 24px;border-radius:8px;font-size:14px;font-weight:600;transition:background 0.2s}
+    .dl-btn:hover{background:var(--accent-light)}
+    .faq{padding:80px 0}
+    .faq-header{text-align:center;margin-bottom:48px}
+    .faq-header h2{font-size:32px;font-weight:800;letter-spacing:-1px}
+    .faq-list{max-width:680px;margin:0 auto}
+    .faq-item{border-bottom:1px solid var(--border);padding:24px 0}
+    .faq-q{font-size:16px;font-weight:600;margin-bottom:12px}
+    .faq-a{color:var(--text-muted);font-size:14px;line-height:1.8}
+    .cta-section{padding:120px 24px;text-align:center;position:relative}
+    .cta-section::before{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:600px;height:600px;background:radial-gradient(circle,rgba(249,115,22,0.08) 0%,transparent 60%);pointer-events:none}
+    .cta h2{font-size:clamp(28px,4vw,48px);font-weight:800;letter-spacing:-1px;margin-bottom:16px}
+    .cta p{color:var(--text-muted);font-size:18px;margin-bottom:40px}
+    .cta-actions{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
+    footer{border-top:1px solid var(--border);padding:48px 24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:24px}
+    .footer-brand{display:flex;align-items:center;gap:8px;font-weight:700;font-size:16px}
+    .footer-links{display:flex;gap:32px}
+    .footer-links a{color:var(--text-muted);font-size:14px;transition:color 0.2s}
+    .footer-links a:hover{color:var(--text)}
+    .footer-copy{color:var(--text-muted);font-size:13px}
+    @keyframes fadeInUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+    @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
+    .reveal{opacity:0;transform:translateY(30px);transition:all 0.8s cubic-bezier(0.16,1,0.3,1)}
+    .reveal.visible{opacity:1;transform:translateY(0)}
+    @media(max-width:900px){.bento-grid{grid-template-columns:1fr}.bento-card.large{grid-column:span 1}.nav-links{display:none}.stats-bar{flex-direction:column}.download-grid{grid-template-columns:1fr}}
+    @media(max-width:600px){.pricing-grid{grid-template-columns:1fr}}
   </style>
 </head>
 <body>
-
-  <!-- Nav -->
-  <nav>
-    <div class="nav-inner">
-      <div class="logo">
-        <svg class="logo-icon" viewBox="0 0 32 32" fill="none">
-          <rect width="32" height="32" rx="8" fill="#f97316"/>
-          <path d="M8 22L16 10L24 22H8Z" fill="white" opacity="0.9"/>
-          <circle cx="16" cy="18" r="3" fill="#f97316"/>
-        </svg>
-        <span>智<span class="logo-accent">店</span>通</span>
-      </div>
-      <div class="nav-links">
-        <a href="#features">功能</a>
-        <a href="#pricing">定价</a>
-        <a href="#faq">常见问题</a>
-      </div>
-      <a href="#pricing" class="nav-cta">立即开始</a>
-    </div>
-  </nav>
-
-  <!-- Hero -->
-  <section class="hero">
-    <div class="hero-badge">
-      <span class="badge-dot"></span>
-      专为中小商家打造的智能商品管理系统
-    </div>
-    <h1>让商品管理<br><span class="accent">更智能、更简单</span></h1>
-    <p class="hero-sub">
-      扫码采购 · 库存分析 · AI 智能经营，一套系统搞定店铺全流程。
-      告别 Excel，告别繁琐，让生意更轻松。
-    </p>
-    <div class="hero-actions">
-      <a href="#pricing" class="btn-primary">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-        立即订阅
-      </a>
-      <a href="#features" class="btn-ghost">了解更多</a>
-    </div>
-    <p class="hero-note">基础版 <span>9.9元/月</span> · AI 版 <span>19.9元/月</span> · 随时可退</p>
-  </section>
-
-  <!-- Stats -->
+<nav>
+  <div class="nav-inner">
+    <div class="logo"><svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="#f97316"/><path d="M8 22L16 10L24 22H8Z" fill="white" opacity="0.9"/><circle cx="16" cy="18" r="3" fill="#f97316"/></svg><span>智<span class="logo-accent">店</span>通</span></div>
+    <div class="nav-links"><a href="#features">功能</a><a href="#pricing">定价</a><a href="#downloads">下载</a><a href="#faq">常见问题</a></div>
+    <a href="#downloads" class="nav-cta">免费下载</a>
+  </div>
+</nav>
+<section class="hero">
+  <div class="hero-badge"><span class="badge-dot"></span>专为中小商家打造的智能商品管理系统</div>
+  <h1>让商品管理<br><span class="accent">更智能、更简单</span></h1>
+  <p class="hero-sub">扫码采购 · 库存分析 · AI 智能经营，一套系统搞定店铺全流程。告别 Excel，告别繁琐，让生意更轻松。</p>
+  <div class="hero-actions">
+    <a href="#downloads" class="btn-primary"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>免费下载客户端</a>
+    <a href="#features" class="btn-ghost">了解更多</a>
+  </div>
+  <p class="hero-note">基础版 <span>9.9元/月</span> · AI 版 <span>19.9元/月</span> · 随时可退</p>
+</section>
+<div class="container">
+  <div class="stats-bar reveal">
+    <div class="stat-item"><div class="stat-number">10万+</div><div class="stat-label">活跃商家</div></div>
+    <div class="stat-item"><div class="stat-number">500万+</div><div class="stat-label">商品条码</div></div>
+    <div class="stat-item"><div class="stat-number">99.9%</div><div class="stat-label">服务可用性</div></div>
+    <div class="stat-item"><div class="stat-number">7×12</div><div class="stat-label">在线客服</div></div>
+  </div>
+</div>
+<section class="bento" id="features">
   <div class="container">
-    <div class="stats-bar reveal">
-      <div class="stat-item">
-        <div class="stat-number">10万+</div>
-        <div class="stat-label">活跃商家</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-number">500万+</div>
-        <div class="stat-label">商品条码</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-number">99.9%</div>
-        <div class="stat-label">服务可用性</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-number">7×12</div>
-        <div class="stat-label">在线客服</div>
-      </div>
+    <div class="bento-header reveal"><h2>为什么选择智店通？</h2><p>每一个功能，都为真实生意场景而生</p></div>
+    <div class="bento-grid">
+      <div class="bento-card large reveal"><div class="bento-icon">📦</div><h3>扫码采购，一秒录入</h3><p>支持条码扫描查询、扫码入库、批量采购。手机扫一扫，商品信息自动识别并录入系统，大幅提升进货效率。支持多品牌条码库，覆盖超市、日化、数码等全品类。</p><span class="tag">支持EAN-13 / UPC-A / QR码</span></div>
+      <div class="bento-card reveal"><div class="bento-icon">📊</div><h3>数据看板</h3><p>实时统计销量、库存周转、利润分析，数据可视化看板一目了然，告别繁琐的 Excel 对账。</p></div>
+      <div class="bento-card reveal"><div class="bento-icon">☁️</div><h3>云端同步</h3><p>本地安全存储，云端实时同步，多设备无缝切换，数据永不丢失。</p></div>
+      <div class="bento-card reveal"><div class="bento-icon">🤖</div><h3>AI 智能经营建议</h3><p>基于销售数据，AI 自动分析库存风险、热销趋势，提供智能补货建议和促销策略。AI 版专属功能。</p><span class="tag" style="color:var(--ai);border-color:rgba(167,139,250,0.3)">AI 版功能</span></div>
+      <div class="bento-card large reveal"><div class="bento-icon">🔌</div><h3>开放 API，无缝对接</h3><p>提供标准 REST API，支持 ERP、收银系统、电商平台数据对接。可扩展性强，满足个性化业务需求。</p><span class="tag">REST API · Swagger 文档</span></div>
+      <div class="bento-card reveal"><div class="bento-icon">🔒</div><h3>安全可靠</h3><p>数据全程加密，支持权限管理、操作日志追踪，数据安全有保障。</p></div>
+      <div class="bento-card reveal"><div class="bento-icon">⚡</div><h3>轻量高效</h3><p>跨平台支持 Windows / macOS / Linux，安装包小巧，下载即用，无需培训。</p></div>
     </div>
   </div>
-
-  <!-- Bento Features -->
-  <section class="bento" id="features">
-    <div class="container">
-      <div class="bento-header reveal">
-        <h2>为什么选择智店通？</h2>
-        <p>每一个功能，都为真实生意场景而生</p>
-      </div>
-      <div class="bento-grid">
-        <div class="bento-card large reveal">
-          <div class="bento-icon">📦</div>
-          <h3>扫码采购，一秒录入</h3>
-          <p>支持条码扫描查询、扫码入库、批量采购。手机扫一扫，商品信息自动识别并录入系统，大幅提升进货效率。支持多品牌条码库，覆盖超市、日化、数码等全品类。</p>
-          <span class="tag">支持EAN-13 / UPC-A / QR码</span>
-        </div>
-        <div class="bento-card reveal">
-          <div class="bento-icon">📊</div>
-          <h3>数据看板</h3>
-          <p>实时统计销量、库存周转、利润分析，数据可视化看板一目了然，告别繁琐的 Excel 对账。</p>
-        </div>
-        <div class="bento-card reveal">
-          <div class="bento-icon">☁️</div>
-          <h3>云端同步</h3>
-          <p>本地安全存储，云端实时同步，多设备无缝切换，数据永不丢失。</p>
-        </div>
-        <div class="bento-card reveal">
-          <div class="bento-icon">🤖</div>
-          <h3>AI 智能经营建议</h3>
-          <p>基于销售数据，AI 自动分析库存风险、热销趋势，提供智能补货建议和促销策略。AI 版专属功能。</p>
-          <span class="tag" style="color: var(--ai); border-color: rgba(167,139,250,0.3);">AI 版功能</span>
-        </div>
-        <div class="bento-card large reveal">
-          <div class="bento-icon">🔌</div>
-          <h3>开放 API，无缝对接</h3>
-          <p>提供标准 REST API，支持 ERP、收银系统、电商平台数据对接。可扩展性强，满足个性化业务需求。</p>
-          <span class="tag">REST API · Swagger 文档 · 多语言 SDK</span>
-        </div>
-        <div class="bento-card reveal">
-          <div class="bento-icon">🔒</div>
-          <h3>安全可靠</h3>
-          <p>数据全程加密，支持权限管理、操作日志追踪，数据安全有保障。</p>
-        </div>
-        <div class="bento-card reveal">
-          <div class="bento-icon">⚡</div>
-          <h3>轻量高效</h3>
-          <p>跨平台支持 Windows / macOS / Linux，安装包小巧，下载即用，无需培训。</p>
-        </div>
-      </div>
+</section>
+<section class="download-section" id="downloads">
+  <div class="container">
+    <div class="download-header reveal"><h2>免费下载客户端</h2><p>支持 Windows / macOS / Linux，安装即用</p></div>
+    <div class="download-grid">
+      <div class="dl-card reveal"><div class="dl-icon">🪟</div><div class="dl-name">Windows</div><div class="dl-desc">Windows 10 / 11 (64-bit)</div><div class="dl-version">v1.0.0 · 2026年3月</div><a href="/downloads/zhidiantong-setup-win.exe" class="dl-btn">⬇️ Windows 版下载</a></div>
+      <div class="dl-card reveal"><div class="dl-icon">🍎</div><div class="dl-name">macOS</div><div class="dl-desc">macOS 11+ (Apple Silicon / Intel)</div><div class="dl-version">v1.0.0 · 2026年3月</div><a href="/downloads/zhidiantong-setup-mac.dmg" class="dl-btn">⬇️ macOS 版下载</a></div>
+      <div class="dl-card reveal"><div class="dl-icon">🐧</div><div class="dl-name">Linux</div><div class="dl-desc">Ubuntu 20.04+ / Debian</div><div class="dl-version">v1.0.0 · 2026年3月</div><a href="/downloads/zhidiantong-setup-linux.AppImage" class="dl-btn">⬇️ Linux 版下载</a></div>
     </div>
-  </section>
-
-  <!-- Product Showcase -->
-  <section class="showcase" id="product">
-    <div class="container">
-      <h2 class="reveal">界面预览</h2>
-      <p class="showcase-sub reveal">简洁直观的设计，让管理更高效</p>
-      <div class="showcase-frame reveal">
-        <div class="showcase-placeholder">
-          <div class="showcase-placeholder-icon">🖥️</div>
-          <p>智店通 · 商品管理界面</p>
-          <p style="font-size:12px; opacity:0.5;">下载客户端体验完整功能</p>
-        </div>
-      </div>
+    <p style="text-align:center;margin-top:32px;color:var(--text-muted);font-size:13px" class="reveal">下载遇到问题？<a href="mailto:contact@zhdtong.com" style="color:var(--accent)">联系客服</a></p>
+  </div>
+</section>
+<section class="pricing" id="pricing">
+  <div class="container">
+    <div class="pricing-header reveal"><h2>简单透明的定价</h2><p>没有套路，按月订阅，随时可退</p></div>
+    <div class="pricing-grid">
+      <div class="pricing-card reveal"><div class="pricing-name">基础版</div><div class="pricing-desc">适合个人商家和小型店铺的日常管理</div><div class="pricing-price"><div class="pricing-amount"><span class="yuan">¥</span>9.9<span style="font-size:16px;font-weight:400">/月</span></div></div><ul class="pricing-features"><li><span class="check">✓</span> 商品扫码录入与查询</li><li><span class="check">✓</span> 库存管理与预警</li><li><span class="check">✓</span> 采购记录追踪</li><li><span class="check">✓</span> 数据可视化看板</li><li><span class="check">✓</span> 云端数据同步</li><li><span class="check">✓</span> 多设备登录（3台）</li></ul><button class="pricing-btn ghost">了解更多</button></div>
+      <div class="pricing-card ai popular reveal"><div class="pricing-popular">最受好评</div><div class="pricing-name">AI 智能版</div><div class="pricing-desc">AI 加持，智能决策，让经营快人一步</div><div class="pricing-price"><div class="pricing-amount"><span class="yuan">¥</span>19.9<span style="font-size:16px;font-weight:400">/月</span></div></div><ul class="pricing-features"><li><span class="check">✓</span> 基础版全部功能</li><li><span class="check">✓</span> AI 智能补货建议</li><li><span class="check">✓</span> AI 销售趋势分析</li><li><span class="check">✓</span> AI 促销策略推荐</li><li><span class="check">✓</span> 库存风险预警</li><li><span class="check">✓</span> 无设备数量限制</li></ul><a href="#downloads" class="pricing-btn ai-btn" style="display:block;text-align:center;text-decoration:none">立即下载体验</a></div>
     </div>
-  </section>
-
-  <!-- Pricing -->
-  <section class="pricing" id="pricing">
-    <div class="container">
-      <div class="pricing-header reveal">
-        <h2>简单透明的定价</h2>
-        <p>没有套路，按月订阅，随时可退</p>
-      </div>
-      <div class="pricing-grid">
-        <!-- Basic -->
-        <div class="pricing-card reveal">
-          <div class="pricing-name">基础版</div>
-          <div class="pricing-desc">适合个人商家和小型店铺的日常管理</div>
-          <div class="pricing-price">
-            <div class="pricing-amount"><span class="yuan">¥</span>9.9<span style="font-size:16px;font-weight:400">/月</span></div>
-          </div>
-          <ul class="pricing-features">
-            <li><span class="check">✓</span> 商品扫码录入与查询</li>
-            <li><span class="check">✓</span> 库存管理与预警</li>
-            <li><span class="check">✓</span> 采购记录追踪</li>
-            <li><span class="check">✓</span> 数据可视化看板</li>
-            <li><span class="check">✓</span> 云端数据同步</li>
-            <li><span class="check">✓</span> 多设备登录（3台）</li>
-            <li><span class="check">✓</span> 基础 API 接口</li>
-          </ul>
-          <button class="pricing-btn ghost" onclick="document.getElementById('faq').scrollIntoView({behavior:'smooth'})">了解更多</button>
-        </div>
-        <!-- AI -->
-        <div class="pricing-card ai popular reveal">
-          <div class="pricing-popular">最受好评</div>
-          <div class="pricing-name">AI 智能版</div>
-          <div class="pricing-desc">AI 加持，智能决策，让经营快人一步</div>
-          <div class="pricing-price">
-            <div class="pricing-amount"><span class="yuan">¥</span>19.9<span style="font-size:16px;font-weight:400">/月</span></div>
-          </div>
-          <ul class="pricing-features">
-            <li><span class="check">✓</span> 基础版全部功能</li>
-            <li><span class="check">✓</span> AI 智能补货建议</li>
-            <li><span class="check">✓</span> AI 销售趋势分析</li>
-            <li><span class="check">✓</span> AI 促销策略推荐</li>
-            <li><span class="check">✓</span> 库存风险预警</li>
-            <li><span class="check">✓</span> 无设备数量限制</li>
-            <li><span class="check">✓</span> 完整 API + Webhooks</li>
-          </ul>
-          <button class="pricing-btn ai-btn">立即开通 AI 版</button>
-        </div>
-      </div>
-      <p style="text-align:center; color:var(--text-muted); font-size:13px; margin-top:32px;" class="reveal">
-        企业版支持私有化部署和定制开发，<a href="mailto:contact@zhdtong.com" style="color:var(--accent);">联系我们</a>获取报价。
-      </p>
+    <p style="text-align:center;color:var(--text-muted);font-size:13px;margin-top:32px">企业版支持私有化部署和定制开发，<a href="mailto:contact@zhdtong.com" style="color:var(--accent)">联系我们</a>获取报价。</p>
+  </div>
+</section>
+<section class="faq" id="faq">
+  <div class="container">
+    <div class="faq-header reveal"><h2>常见问题</h2></div>
+    <div class="faq-list">
+      <div class="faq-item reveal"><div class="faq-q">智店通支持哪些平台？</div><div class="faq-a">目前支持 Windows 10+、macOS 11+、Linux（Ubuntu 20.04+）。数据通过云端同步，手机端可通过网页版访问。</div></div>
+      <div class="faq-item reveal"><div class="faq-q">免费试用吗？</div><div class="faq-a">新用户赠送 7 天全功能免费体验，无需绑定信用卡。体验结束后可选择继续订阅或降级为免费版。</div></div>
+      <div class="faq-item reveal"><div class="faq-q">如何开通 AI 版？</div><div class="faq-a">下载客户端后，在应用内升级 AI 版即可。订阅后即刻生效，AI 分析功能立即可用。</div></div>
+      <div class="faq-item reveal"><div class="faq-q">数据安全有保障吗？</div><div class="faq-a">所有数据传输采用 TLS 1.3 加密，存储采用 AES-256 加密。我们承诺绝不主动向第三方透露用户数据。</div></div>
+      <div class="faq-item reveal"><div class="faq-q">可以退款吗？</div><div class="faq-a">按月订阅，未使用天数支持全额退款。退订后数据保留 30 天，再次订阅可继续使用。</div></div>
     </div>
-  </section>
-
-  <!-- FAQ -->
-  <section class="faq" id="faq">
-    <div class="container">
-      <div class="faq-header reveal">
-        <h2>常见问题</h2>
-      </div>
-      <div class="faq-list">
-        <div class="faq-item reveal">
-          <div class="faq-q">智店通支持哪些平台？</div>
-          <div class="faq-a">目前支持 Windows 10+、macOS 11+、Linux（Ubuntu 20.04+）。数据通过云端同步，手机端可通过网页版访问。</div>
-        </div>
-        <div class="faq-item reveal">
-          <div class="faq-q">免费试用吗？</div>
-          <div class="faq-a">新用户赠送 7 天全功能免费体验，无需绑定信用卡。体验结束后可选择继续订阅或降级为免费版。</div>
-        </div>
-        <div class="faq-item reveal">
-          <div class="faq-q">如何开通 AI 版？</div>
-          <div class="faq-a">在客户端内点击「升级 AI 版」或联系客服开通。订阅后即刻生效，AI 分析功能立即可用。</div>
-        </div>
-        <div class="faq-item reveal">
-          <div class="faq-q">数据安全有保障吗？</div>
-          <div class="faq-a">所有数据传输采用 TLS 1.3 加密，存储采用 AES-256 加密。我们承诺绝不主动向第三方透露用户数据。</div>
-        </div>
-        <div class="faq-item reveal">
-          <div class="faq-q">可以退款吗？</div>
-          <div class="faq-a">按月订阅，未使用天数支持全额退款。退订后数据保留 30 天，再次订阅可继续使用。</div>
-        </div>
-        <div class="faq-item reveal">
-          <div class="faq-q">可以开发票吗？</div>
-          <div class="faq-a">支持增值税普通发票和专用发票，开票内容为「软件服务费」。请联系客服申请开具。</div>
-        </div>
-      </div>
+  </div>
+</section>
+<section class="cta-section">
+  <div class="cta reveal">
+    <h2>开始使用智店通</h2><p>7 天免费体验，零风险切换</p>
+    <div class="cta-actions">
+      <a href="#downloads" class="btn-primary"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>免费下载</a>
+      <a href="#pricing" class="btn-ghost">查看定价</a>
     </div>
-  </section>
-
-  <!-- CTA -->
-  <section class="cta-section">
-    <div class="cta reveal">
-      <h2>开始使用智店通</h2>
-      <p>7 天免费体验，零风险切换</p>
-      <div class="cta-actions">
-        <a href="#pricing" class="btn-primary">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          立即订阅
-        </a>
-        <a href="#product" class="btn-ghost">查看产品介绍</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- Footer -->
-  <footer>
-    <div class="footer-brand">
-      <svg width="24" height="24" viewBox="0 0 32 32" fill="none">
-        <rect width="32" height="32" rx="8" fill="#f97316"/>
-        <path d="M8 22L16 10L24 22H8Z" fill="white" opacity="0.9"/>
-        <circle cx="16" cy="18" r="3" fill="#f97316"/>
-      </svg>
-      智店通
-    </div>
-    <div class="footer-links">
-      <a href="#features">功能</a>
-      <a href="#pricing">定价</a>
-      <a href="#faq">帮助</a>
-      <a href="#">用户协议</a>
-      <a href="#">隐私政策</a>
-    </div>
-    <div class="footer-copy">© 2026 智店通 ZhDtong.com · 让生意更简单</div>
-  </footer>
-
-  <!-- Scroll Reveal Script -->
-  <script>
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-        }
-      });
-    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
-
-    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-  </script>
-
+  </div>
+</section>
+<footer>
+  <div class="footer-brand"><svg width="24" height="24" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="#f97316"/><path d="M8 22L16 10L24 22H8Z" fill="white" opacity="0.9"/><circle cx="16" cy="18" r="3" fill="#f97316"/></svg>智店通</div>
+  <div class="footer-links"><a href="#features">功能</a><a href="#pricing">定价</a><a href="#faq">帮助</a><a href="#">用户协议</a><a href="#">隐私政策</a></div>
+  <div class="footer-copy">© 2026 智店通 ZhDtong.com · 让生意更简单</div>
+</footer>
+<script>
+const observer=new IntersectionObserver((entries)=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')})},{threshold:0.1,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+</script>
 </body>
 </html>
